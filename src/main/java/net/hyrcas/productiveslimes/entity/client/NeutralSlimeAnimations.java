@@ -7,6 +7,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
 
 public class NeutralSlimeAnimations {
 
+
     public static final AnimationDefinition NEUTRAL_SLIME_WALK = AnimationDefinition.Builder.withLength(1.25f).looping()
             .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.POSITION,

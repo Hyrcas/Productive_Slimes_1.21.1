@@ -17,12 +17,12 @@ import net.minecraft.world.entity.Entity;
 // Paste this class into your mod and generate all required imports
 
 
-public class neutralslime<T extends Entity> extends HierarchicalModel<T> {
+public class NeutralSlimeModel<T extends NeutralSlimeEntity> extends HierarchicalModel<T> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "neutralslime"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "neutralslime"), "main");
     private final ModelPart Body;
 
-    public neutralslime(ModelPart root) {
+    public NeutralSlimeModel(ModelPart root) {
         this.Body = root.getChild("Body");
     }
 
@@ -43,8 +43,10 @@ public class neutralslime<T extends Entity> extends HierarchicalModel<T> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+    public void setupAnim(NeutralSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+        this.animateWalk(NeutralSlimeAnimations.NEUTRAL_SLIME_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
+        this.animate(entity.idleAnimationState, NeutralSlimeAnimations.NEUTRAL_SLIME_IDLE, ageInTicks, 1f);
     }
 
     @Override
