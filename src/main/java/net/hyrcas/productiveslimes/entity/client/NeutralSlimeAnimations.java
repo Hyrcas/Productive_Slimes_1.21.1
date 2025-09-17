@@ -8,7 +8,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
 public class NeutralSlimeAnimations {
 
     public static final AnimationDefinition NEUTRAL_SLIME_WALK = AnimationDefinition.Builder.withLength(1.25f).looping()
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.POSITION,
                             new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR),
@@ -22,7 +22,7 @@ public class NeutralSlimeAnimations {
                                     AnimationChannel.Interpolations.LINEAR),
                             new Keyframe(1.25f, KeyframeAnimations.posVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR)))
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.ROTATION,
                             new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR),
@@ -36,7 +36,7 @@ public class NeutralSlimeAnimations {
                                     AnimationChannel.Interpolations.LINEAR),
                             new Keyframe(1.25f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR)))
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.SCALE,
                             new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
                                     AnimationChannel.Interpolations.LINEAR),
@@ -51,7 +51,7 @@ public class NeutralSlimeAnimations {
                             new Keyframe(1.25f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
                                     AnimationChannel.Interpolations.LINEAR))).build();
     public static final AnimationDefinition NEUTRAL_SLIME_IDLE = AnimationDefinition.Builder.withLength(1f).looping()
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.POSITION,
                             new Keyframe(0f, KeyframeAnimations.posVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR),
@@ -59,7 +59,7 @@ public class NeutralSlimeAnimations {
                                     AnimationChannel.Interpolations.CATMULLROM),
                             new Keyframe(1f, KeyframeAnimations.posVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR)))
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.ROTATION,
                             new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR),
@@ -67,7 +67,7 @@ public class NeutralSlimeAnimations {
                                     AnimationChannel.Interpolations.CATMULLROM),
                             new Keyframe(1f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
                                     AnimationChannel.Interpolations.LINEAR)))
-            .addAnimation("Slime",
+            .addAnimation("Body",
                     new AnimationChannel(AnimationChannel.Targets.SCALE,
                             new Keyframe(0f, KeyframeAnimations.scaleVec(1f, 1f, 1f),
                                     AnimationChannel.Interpolations.LINEAR),
