@@ -68,7 +68,7 @@ public class NeutralSlimeModel<T extends NeutralSlimeEntity> extends Hierarchica
 
         @Override
         public ModelPart root() {
-            return body;
+            return body; 
         }
 
 
