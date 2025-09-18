@@ -10,7 +10,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.util.Mth;
 
 // Made with Blockbench 4.12.6
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -19,11 +19,12 @@ import net.minecraft.world.entity.Entity;
 
 public class NeutralSlimeModel<T extends NeutralSlimeEntity> extends HierarchicalModel<T> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "neutralslime"), "main");
-    private final ModelPart Body;
+    public static final ModelLayerLocation LAYER_LOCATION =
+            new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "neutralslime"), "main");
+    private final ModelPart body;
 
     public NeutralSlimeModel(ModelPart root) {
-        this.Body = root.getChild("Body");
+        this.body = root.getChild("Body");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -45,18 +46,30 @@ public class NeutralSlimeModel<T extends NeutralSlimeEntity> extends Hierarchica
     @Override
     public void setupAnim(NeutralSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        // Use animate() with the entity's animation states instead of animateWalk()
         this.animateWalk(NeutralSlimeAnimations.NEUTRAL_SLIME_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
         this.animate(entity.idleAnimationState, NeutralSlimeAnimations.NEUTRAL_SLIME_IDLE, ageInTicks, 1f);
     }
 
+    private void applyHeadRotation(float headYaw, float headPitch) {
+        headYaw = Mth.clamp(headYaw, -30f, 30f);
+        headPitch = Mth.clamp(headPitch, -25f, 45);
+
+        this.body.yRot = headYaw * ((float)Math.PI / 180f);
+        this.body.xRot = headPitch *  ((float)Math.PI / 180f);
+    }
+
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        Body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
 
         @Override
         public ModelPart root() {
-            return Body;
+            return body;
         }
+
+
 }

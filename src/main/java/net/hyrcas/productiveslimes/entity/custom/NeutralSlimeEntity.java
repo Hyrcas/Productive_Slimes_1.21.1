@@ -22,7 +22,7 @@ public class NeutralSlimeEntity extends Animal {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private  int idleAnimationTimeout = 0;
-    public final AnimationState walkAnimationState = new AnimationState();
+
 
     public NeutralSlimeEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -66,11 +66,6 @@ public class NeutralSlimeEntity extends Animal {
             this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
-        }
-        if (this.isMoving()) {
-            this.walkAnimationState.startIfStopped(this.tickCount);
-        } else {
-            this.walkAnimationState.stop();
         }
     }
 
