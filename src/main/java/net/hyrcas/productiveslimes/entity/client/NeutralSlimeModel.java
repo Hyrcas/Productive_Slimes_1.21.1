@@ -1,75 +1,24 @@
 package net.hyrcas.productiveslimes.entity.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.hyrcas.productiveslimes.ProductiveSlimes;
 import net.hyrcas.productiveslimes.entity.custom.NeutralSlimeEntity;
-import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import software.bernie.geckolib.model.GeoModel;
 
-// Made with Blockbench 4.12.6
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
+public class NeutralSlimeModel extends GeoModel<NeutralSlimeEntity> {
 
-
-public class NeutralSlimeModel<T extends NeutralSlimeEntity> extends HierarchicalModel<T> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION =
-            new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "neutralslime"), "main");
-    private final ModelPart body;
-
-    public NeutralSlimeModel(ModelPart root) {
-        this.body = root.getChild("Body");
-    }
-
-    public static LayerDefinition createBodyLayer() {
-        MeshDefinition meshdefinition = new MeshDefinition();
-        PartDefinition partdefinition = meshdefinition.getRoot();
-
-        PartDefinition Body = partdefinition.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(7, 29).addBox(-5.0F, -8.25F, -11.4F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 29).addBox(3.0F, -8.25F, -11.4F, 2.0F, 4.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(3, 47).addBox(-2.0F, -6.25F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 97).addBox(-10.0F, -9.0F, -11.0F, 20.0F, 9.0F, 22.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
-
-        PartDefinition cube_r1 = Body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(52, 68).addBox(-8.0F, -5.0F, -10.0F, 17.0F, 5.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.25F, 0.0F, -0.048F, 0.0F, 0.0F));
-
-        PartDefinition cube_r2 = Body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(5, 61).mirror().addBox(-7.0F, -5.0F, -8.0F, 14.0F, 5.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -9.25F, 0.0F, -0.0611F, 0.0F, 0.0F));
-
-        return LayerDefinition.create(meshdefinition, 128, 128);
+    @Override
+    public ResourceLocation getModelResource(NeutralSlimeEntity animatable) {
+        return ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "geo/neutralslime.geo.json");
     }
 
     @Override
-    public void setupAnim(NeutralSlimeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.root().getAllParts().forEach(ModelPart::resetPose);
-
-        // Use animate() with the entity's animation states instead of animateWalk()
-        this.animateWalk(NeutralSlimeAnimations.NEUTRAL_SLIME_WALK, limbSwing, limbSwingAmount, 2f, 2.5f);
-        this.animate(entity.idleAnimationState, NeutralSlimeAnimations.NEUTRAL_SLIME_IDLE, ageInTicks, 1f);
-    }
-
-    private void applyHeadRotation(float headYaw, float headPitch) {
-        headYaw = Mth.clamp(headYaw, -30f, 30f);
-        headPitch = Mth.clamp(headPitch, -25f, 45);
-
-        this.body.yRot = headYaw * ((float)Math.PI / 180f);
-        this.body.xRot = headPitch *  ((float)Math.PI / 180f);
+    public ResourceLocation getTextureResource(NeutralSlimeEntity animatable) {
+        return ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "textures/neutralslime.png");
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+    public ResourceLocation getAnimationResource(NeutralSlimeEntity animatable) {
+        return ResourceLocation.fromNamespaceAndPath(ProductiveSlimes.MOD_ID, "animations/neutralslime.animation.json");
     }
-
-
-        @Override
-        public ModelPart root() {
-            return body; 
-        }
-
-
 }

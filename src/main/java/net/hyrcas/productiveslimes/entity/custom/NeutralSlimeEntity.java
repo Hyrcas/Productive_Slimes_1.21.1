@@ -1,9 +1,9 @@
 package net.hyrcas.productiveslimes.entity.custom;
 
+import com.sun.jna.platform.win32.WinBase;
 import net.minecraft.server.ServerLinks;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -15,13 +15,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.event.level.NoteBlockEvent;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Attr;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class NeutralSlimeEntity extends Animal {
+public class NeutralSlimeEntity extends Animal implements GeoEntity {
 
-    public final AnimationState idleAnimationState = new AnimationState();
-    private  int idleAnimationTimeout = 0;
+    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
 
     public NeutralSlimeEntity(EntityType<? extends Animal> entityType, Level level) {
@@ -60,25 +65,24 @@ public class NeutralSlimeEntity extends Animal {
         return null;
     }
 
-    private void setupAnimationStates() {
-        if(this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 20;
-            this.idleAnimationState.start(this.tickCount);
-        } else {
-            --this.idleAnimationTimeout;
-        }
+    @Override
+    public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private boolean isMoving() {
-        return this.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D;
+    protected <T extends NeutralSlimeEntity> PlayState predicate(final AnimationState<T> tAnimationState) {
+        if (tAnimationState.isMoving()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.neutralslime.Walk", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.neutralslime.Idle", Animation.LoopType.LOOP));
+        return PlayState.CONTINUE;
     }
+
 
     @Override
-    public void tick() {
-        super.tick();
-
-        if(this.level().isClientSide()) {
-            this.setupAnimationStates();
-        }
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.geoCache;
     }
 }
