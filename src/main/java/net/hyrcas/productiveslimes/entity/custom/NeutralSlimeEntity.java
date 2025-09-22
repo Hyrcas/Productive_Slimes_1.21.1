@@ -50,7 +50,7 @@ public class NeutralSlimeEntity extends Animal implements GeoEntity {
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 10d)
-                .add(Attributes.MOVEMENT_SPEED, 0.5D)
+                .add(Attributes.MOVEMENT_SPEED, 0.15D)
                 .add(Attributes.FOLLOW_RANGE, 24D);
     }
 
@@ -67,16 +67,16 @@ public class NeutralSlimeEntity extends Animal implements GeoEntity {
 
     @Override
     public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllers.add(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
     protected <T extends NeutralSlimeEntity> PlayState predicate(final AnimationState<T> tAnimationState) {
         if (tAnimationState.isMoving()) {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.neutralslime.Walk", Animation.LoopType.LOOP));
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("Walk", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
 
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.neutralslime.Idle", Animation.LoopType.LOOP));
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("Idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 
